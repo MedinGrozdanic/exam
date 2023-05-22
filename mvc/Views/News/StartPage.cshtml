@@ -1,0 +1,95 @@
+﻿<header class="header">
+    <h1 id="Sitetitle">BlåaToppens Dagblad</h1>
+    <div class="ThemeButton">
+        <input type="checkbox" id="btntoggle" value=true>Byt tema 
+        <script src=~/js/site.js></script>
+    </div>
+</header>
+
+<main>
+
+    @{
+        @foreach (var article in ViewBag.Articles)
+        {
+            string title = @article.Title.Replace(" ", "-");
+            Console.WriteLine(@article.Id);
+            <a id="pinned-articlesLink" href=@String.Format("/News/{0}-{1}", article.Id, title))>
+                <section class="pinned-articles">
+                    <img src=@($"images/{article.ImageName}") alt="">
+                    <p class="pinned-articles-time">@article.Created</p>
+                    <h3 class="pinned-articles-title">@article.Title</h3>
+                    <p class="pinned-articles-author">—@article.AuthorFirstName.ToUpper() @article.AuthorLastName.ToUpper()</p>
+                </section>
+            </a>
+        }
+    }
+</main>
+
+@{
+    var adsRandomizer = new Random().Next(1, 4);
+}
+
+
+<div class="newsAndads">
+     <section class="ads">
+        <a id="adslink" href=https://www.buyawesomestuff.com target="_blank">
+            <picture>
+                <source media="(min-width:1401px)" srcset="~/ads/reklam-@adsRandomizer-portrait-320w.png" />
+                <source media="(min-width:1025px)" srcset="~/ads/reklam-@adsRandomizer-landscape-470w.png" />
+                <source media="(min-width:701px)" srcset="~/ads/reklam-@adsRandomizer-landscape-940w.png" />
+                <source media="(min-width:360px)" srcset="~/ads/reklam-@adsRandomizer-landscape-470w.png" />
+                <img src="~/ads/reklam-@adsRandomizer-portrait-1880w.png" alt="image" />
+            </picture>
+        </a>
+    </section>
+    
+     <section class="news">
+        <h3 id="Latest-Articles-h3">De senaste nyheterna</h3>
+        @{
+            foreach (var articles in ViewBag.LatestArticles)
+            {
+                <section class="latest-articles">
+                    <p class="latest-articles-time">
+                        @articles.Created
+                    </p>
+                    <h3 class="latest-articles-title">@articles.Title</h3>
+                    <button class="readmore">Läs mer -></button>
+                </section>
+                    <div Class="Underline"></div>
+            }
+        }
+    </section>
+</div>
+
+
+<div class="footer-container">
+
+    <div class="adress">
+        <h2>Blåtoppens dagblad</h2>
+        <p>
+            <span>
+                Bettorpsgatan 10
+            </span>
+            <span>
+                703 69 Örebro
+            </span>
+        </p>
+    </div>
+
+
+    <div class="footer-about">
+        <h2> Om oss</h2>
+        <p class="text">
+
+            Dagstidningen Blåtoppens dagblad grundades 1821. Tidningen har under 100 år varit
+            den mest lästa tidningen i hela Blåtoppen. Ambitionen med tidningen har sedan dess
+            grundande varit ett tillhandahålla medborgarna med nyhetsrapportering av den allra
+            högsta kvalitén. Blåtoppens dagblad finns idag tillgängligt som papperstidning.
+
+        </p>
+        <a id="admin" href="https://localhost:7208/Admin">admin</a>
+
+    </div>
+
+
+</div>

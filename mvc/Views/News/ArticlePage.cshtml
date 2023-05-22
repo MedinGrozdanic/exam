@@ -1,0 +1,165 @@
+﻿@model Service.Models.ArticleDTO;
+
+
+<div class="articlepage-main">
+
+    <header>
+        <h1 class="headertext">
+
+            Blåtoppens dagblad
+        </h1>
+    </header>
+
+    <main>
+        <div class="textimage">
+            <p class="article-title">@Model.Title</p>
+            <img class="article-image" src="~/images/@Model.ImageName">
+        </div>
+
+        @{
+            var adsRandomizer = new Random().Next(1, 4);
+        }
+
+
+        <div class="article-container">
+            <div class="author-info">
+                @{
+                    var article = ViewBag.article;
+                    var author = article.Articles;
+                    <p class="pub-article-time">@article.Created</p>
+                    <img class="author-image" src=@($"~/images/@Model.ImageName")>
+                    <p class="author-name">
+                        @author.FirstName, @author.LastName
+                    </p>
+                    <p class="author-mail">
+                        <ion-icon name="mail-outline"></ion-icon>
+                        @author.Mail
+                    </p>
+                    <p class="author-twitter">
+                        <ion-icon name="logo-twitter"></ion-icon>
+                        @author.TwitterUserName
+                    </p>
+
+                }
+            </div>
+
+            <div class="article-site">
+                <p class="text-intro">@Model.Intro</p>
+                @foreach (var block in Model.Blocks)
+                {
+                    if (block.Type == "image")
+                    {
+                        <img src="~/images/@block.Value">
+                    }
+
+                    if (block.Type == "paragraph")
+                    {
+                        <p class="paragraph">@block.Value</p>
+                    }
+
+                    if (block.Type == "quote")
+                    {
+                        <div class="quote-container">
+
+                            <p class="quotes"> <i class="fa-solid fa-quote-left"></i>@block.Value <i class="fa-solid fa-quote-right"></i> </p>
+                        </div>
+                    }
+                }
+            </div>
+            <div class="Ad">
+                <a id="adslink" href=https://www.buyawesomestuff.com target="_blank">
+                    <picture>
+                        <source media="(min-width:1401px)" srcset="~/ads/reklam-@adsRandomizer-portrait-320w.png" />
+                        <source media="(min-width:1025px)" srcset="~/ads/reklam-@adsRandomizer-landscape-470w.png" />
+                        <source media="(min-width:701px)" srcset="~/ads/reklam-@adsRandomizer-landscape-940w.png" />
+                        <source media="(min-width:360px)" srcset="~/ads/reklam-@adsRandomizer-landscape-470w.png" />
+                        <img src="~/ads/reklam-@adsRandomizer-portrait-1880w.png" alt="image" />
+                    </picture>
+                </a>
+
+            </div>
+
+            <div class="Underline"></div>
+            <div class="Comment-popup">
+                <a href="#" id="comment-link">Skriv en kommentar
+                    <script src=~/js/ArticlePage.js></script>
+                </a>
+                <h3 class="comment-header">@Model.Comments.Count() Kommentarer</h3>
+            </div>
+
+            <div class="comment-section">
+                <div id="close">+
+                    <script src=~/js/ArticlePage.js></script>
+                </div>
+                <div class="comment-form">
+                    @using (Html.BeginForm("CreateComment", "News", FormMethod.Post))
+                    {
+                        @Html.LabelFor(e=>e.NewComment.CommentedBy,"Din e-postadress: ")
+
+                        <br />
+                        @Html.TextBoxFor(x=> x.NewComment.CommentedBy, new {required="required", pattern=@"\A(?:[a-z0-9!#$%&'+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'+/=?^_`{|}~-]+)@(?:[a-z0-9](?:[a-z0-9-][a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z"})
+
+                        <br />
+                        @Html.LabelFor(n=> n.NewComment.Value,"Din kommentar: ")
+
+                        <br />
+                        @Html.EditorFor(r=>r.NewComment.Value, new {required="required"})
+                        @Html.HiddenFor(x=> Model.Id)
+                        <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" /> <br />
+
+
+                        <input type="submit" class="comment-button" value="Lägg till kommentar" />
+                    }
+                @{
+                    var comments = ViewBag.article.Comments;
+                    @foreach (var comment in Model.Comments)
+                    {
+                        <div class="comments-section">
+                            <div class="mail-time">
+
+                                <p class="created">@comment.Created</p>
+                                <p class="user">@comment.CommentedBy</p>
+                                <div class="Comment-underline"></div>
+                            </div>
+                        </div>
+                        <p class="comment">@comment.Value</p>
+                    }
+                }
+                </div>
+
+            </div>
+        </div>
+
+
+        <footer>
+            <div class="adress">
+                <h2>Blåtoppens dagblad</h2>
+                <p>
+                    <span>
+                        Bettorpsgatan 10
+                    </span>
+                    <span>
+                        703 69 Örebro
+                    </span>
+                </p>
+            </div>
+
+
+            <div class="footer-about">
+                <h2> Om oss</h2>
+                <p class="text">
+
+                    Dagstidningen Blåtoppens dagblad grundades 1821. Tidningen har under 100 år varit
+                    den mest lästa tidningen i hela Blåtoppen. Ambitionen med tidningen har sedan dess
+                    grundande varit ett tillhandahålla medborgarna med nyhetsrapportering av den allra
+                    högsta kvalitén. Blåtoppens dagblad finns idag tillgängligt som papperstidning.
+
+                </p>
+
+            </div>
+
+        </footer>
+
+
+    </main>
+</div>
