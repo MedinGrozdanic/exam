@@ -128,13 +128,13 @@ footer {
 
 .Ad {
     position: absolute;
-    left: 67%;
+    left: 65%;
     top: 950px;
 }
 
 .author-info {
     position: absolute;
-    left: 66%;
+    left: 64%;
     background-color: #ffffff;
     width: 315px;
     font-size: 14px;
@@ -204,7 +204,6 @@ footer {
 
 
 .comment-button {
-    position: absolute;
     right: 5%;
     border-radius: 10px;
     background-color: #548052;

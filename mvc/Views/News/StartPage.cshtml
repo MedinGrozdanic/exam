@@ -1,7 +1,7 @@
 ﻿<header class="header">
     <h1 id="Sitetitle">BlåaToppens Dagblad</h1>
     <div class="ThemeButton">
-        <input type="checkbox" id="btntoggle" value=true>Byt tema 
+        <input type="checkbox" id="btntoggle" value=true>Byt tema
         <script src=~/js/site.js></script>
     </div>
 </header>
@@ -31,7 +31,7 @@
 
 
 <div class="newsAndads">
-     <section class="ads">
+    <section class="ads">
         <a id="adslink" href=https://www.buyawesomestuff.com target="_blank">
             <picture>
                 <source media="(min-width:1401px)" srcset="~/ads/reklam-@adsRandomizer-portrait-320w.png" />
@@ -42,20 +42,22 @@
             </picture>
         </a>
     </section>
-    
-     <section class="news">
+
+    <section class="news">
         <h3 id="Latest-Articles-h3">De senaste nyheterna</h3>
         @{
-            foreach (var articles in ViewBag.LatestArticles)
+            @foreach (var articles in ViewBag.LatestArticles)
             {
                 <section class="latest-articles">
                     <p class="latest-articles-time">
                         @articles.Created
                     </p>
                     <h3 class="latest-articles-title">@articles.Title</h3>
-                    <button class="readmore">Läs mer -></button>
+                    <form method="get" action="@Url.Action("ArticlePage", "News", new { input = String.Format("{0}-{1}", articles.Id, articles.Title.Replace(" ", "-")) })">
+                        <button type="submit" class="readmore">Läs mer -></button>
+                    </form>
                 </section>
-                    <div Class="Underline"></div>
+                <div Class="Underline"></div>
             }
         }
     </section>
